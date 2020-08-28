@@ -1,0 +1,56 @@
+/////////////
+// PLUGINS //
+/////////////
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.4.0"
+    id "org.jlleitschuh.gradle.ktlint" version "9.3.0"
+}
+
+//////////////////
+// DEPENDENCIES //
+//////////////////
+
+repositories {
+    jcenter()
+}
+
+
+dependencies {
+    // KOTLIN
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+
+    implementation "com.google.cloud.bigtable:bigtable-hbase-2.x:1.16.0"
+
+    implementation "io.mockk:mockk:1.10.0"
+    implementation "net.bytebuddy:byte-buddy:1.10.14" // fixes mockk issues with java version
+}
+
+
+/////////////
+// COMPILE //
+/////////////
+
+targetCompatibility = 11
+sourceCompatibility = targetCompatibility
+
+def compilerArgs = [
+        "-Xjsr305=strict"
+]
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += compilerArgs
+        jvmTarget = "$targetCompatibility"
+    }
+}
+
+//////////
+// TEST //
+//////////
+
+ktlint {
+    version = "0.38.1"
+    verbose = true
+}
